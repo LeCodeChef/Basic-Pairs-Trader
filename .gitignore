@@ -11,4 +11,4 @@ wheels/
 
 # Misc
 .env
-One_MinuteIntradayMarketData
+uv.lock
