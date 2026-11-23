@@ -17,11 +17,12 @@ request_params = StockBarsRequest(
     symbol_or_symbols=["GOOG", "GOOGL"],
     timeframe = TimeFrame.Minute,
     start = datetime(2020, 11, 21),
-    end = datetime(2024, 11, 21)
+    end = datetime(2024, 11, 21),
+    adjustment="split"
 )
-
+name_dataset = input("Please input a name for this dataset. ")
 bars = dataClient.get_stock_bars(request_params)
 bars = bars.df.reset_index()
 bars = bars[["symbol", "timestamp", "close"]].copy()
 bars["close"] = np.log(bars["close"])
-bars.to_parquet("IntradayMarketDataGOOG_GOOGL", engine="pyarrow", index=False)
+bars.to_parquet(name_dataset, engine="pyarrow", index=False)

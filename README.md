@@ -3,21 +3,34 @@ AUTHOR: BEN SU, CHILL MAN IN CHARGE OF SU INDUSTRIES
 
 This is my trading bot, VOC, named after after the Dutch East Indies Trading Corporation.   
 
-## What is VOC?
-VOC is a pairs trading bot that collects the spread between two securities, which Su Industry research has proven to exhibit cointegration and a stationary price spread. 
+## Hypothesis
+My hypothesis is that the two classes of a company's stock can be used in a statistical arbitrage algorithm using cointegration. I believe this is so, because shares of different classes in the same company should move in the same general direction over time (fitting cointegration), and maintain a stationary spread. 
 
-## What is cointegration?
-Cointegration is when two variables are tied together like a dog and its owner, generally moving close together in the same direction, but there are some times when they diverge, like a dog pulling its owner towards a squirrel. 
+I'm targeting shares of companies that have two different publicly listed classes, e.g. $BRK.A and $BRK.B or $GOOG and $GOOGL.
 
-## What does stationary mean?
-Stationary means a variable's statistical characteristics such as autocorrelation and mean are constant.
+The timeframe of the algorithm has been set to 1 minute intervals, i.e. intraday trading. 
 
-## Why do we need a stationary price spread?
-Stationary price spreads are necessary, because we need to establish that the spread is stable enough to calculate a mean spread, which will make sense later.
+## Data Sources and Pipeline
+Our data vendor was the platform Alpaca, I requested the data using their Python SDK. The data was in the OHLCV format.
+I sourced our market training data from 11/21/2020 to 11/21/2024, our backtest data is from 11/22/2024 to 11/21/2026.
 
-## Why do we need a mean spread?
-The main stimuli that triggers the brain of this bot is a divergence from the mean spread. When price spreads diverge from the mean spread, we short the higher priced security and buy the lower priced security.
+Since I focused on a limited number of securities (limited to two), there is no risk of survivorship bias, as I'm only trading assets that are still alive and kicking. 
 
-## RISK MANAGEMENT AND HEDGING COMING SOON
+Prior to modeling my data, I went through several preprocessing steps:
+1. Convert the data into a pandas dataframe
+2. Resetted the index of the dataframe
+3. Duplicated the dataframe with only the company ticker, timestamp, and closing price
+4. Applied ln() to the closing prices in order to make calculating price changes easier
+5. Stored the data in a Parquet format for storage
+
+## Research 
+In R&D, I tested each basket of securities using the Engle Granger two-step test, to verify cointegration, and an Augmented Dickey-Fuller test to verify the stationarity of the spread between the securities.
+The signal I relied on was a divergence from the mean spread between securities. When a divergence was detected, the model would buy the underperforming stock and sell the outperforming asset. Underperformance is defined as when the price of a securities basket member went down, and overperformance is defined as when a basket member increased in price. 
+
+## Model Execution
+
+## Backtest Assumptions
+
+## Results, Sources of Error, Room for Improvement
 
 
