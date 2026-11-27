@@ -45,7 +45,7 @@ We also barred any further trades from entering our books after 10:58 AM, to ens
 - I assumed there to be zero broker commissions, because the broker I used, Alpaca, charges no commission. 
 - I assumed a zero percent risk free rate, because the risk free rate per bar is so tiny.
 - I assumed that dividends weren't a factor in stock movement, because my strategy is intraday, thus dividends have little effect.
-- I assumed a half cent ($0.0005) bid/ask spread for $GOOG and $GOOGl, respectively, due to their high liquidity.
+- I assumed a half cent ($0.005) bid/ask spread for $GOOG and $GOOGl, respectively, due to their high liquidity.
 
 ## Results, Sources of Error, Room for Improvement
 ### In Sample Results:
