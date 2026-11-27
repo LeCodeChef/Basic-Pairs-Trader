@@ -1,0 +1,10 @@
+Average Trade Length: 135.57566765578636
+Median Trade Length: 78.0
+Number of Trades 337
+Win Rate: 0.5816023738872403
+Average Gross PnL: 1.2301914406753767
+Average Net PnL: -0.029203231973190347
+Average Cost per Trade: 1.2593946726485672
+Exit Reasons; Exit: 283, Stop: 12, End of Day: 42, Max Bars Held: 0
+Max Drawdown: 0.019927546148282085
+Sharpe Ratio: -0.02499682320472754

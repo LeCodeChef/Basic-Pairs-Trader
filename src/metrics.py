@@ -34,22 +34,29 @@ def trade_stats(trade_log):
     hit_stop_count = (trade_log["Reason"] == "Hit stop").sum()
     end_of_day_count = (trade_log['Reason'] == "End Of Day Close").sum()
     max_bars_count = (trade_log["Reason"] == "Maximum Bars Threshold Reached").sum()
-    print(f"Average Trade Length: {average_trade_length}\n")
-    print(f"Median Trade Length: {median_trade_length}\n")
-    print(f"Number of Trades {number_of_trades}\n")
-    print(f"Win Rate: {win_rate}\n")
-    print(f"Average Gross PnL: {average_gross_pnl}\n")
-    print(f"Average Net PnL: {average_net_pnl}\n")
-    print(f"Average Cost per Trade: {average_cost}\n")
-    print(f"Exit Reasons, Exit: {hit_exit_count}, Stop: {hit_stop_count}, End of Day: {end_of_day_count}, Max Bars Held: {max_bars_count}")
+    global result_title
+    result_title = input("Please enter a title for the results. ")
+    try:
+        with open(result_title, "x", encoding="utf-8") as f:
+            f.write(f"Average Trade Length: {average_trade_length}\n")
+            f.write(f"Median Trade Length: {median_trade_length}\n")
+            f.write(f"Number of Trades {number_of_trades}\n")
+            f.write(f"Win Rate: {win_rate}\n")
+            f.write(f"Average Gross PnL: {average_gross_pnl}\n")
+            f.write(f"Average Net PnL: {average_net_pnl}\n")
+            f.write(f"Average Cost per Trade: {average_cost}\n")
+            f.write(f"Exit Reasons; Exit: {hit_exit_count}, Stop: {hit_stop_count}, End of Day: {end_of_day_count}, Max Bars Held: {max_bars_count}\n")
+    except FileExistsError:
+        print("File already exists. Aborting write to prevent overwrite.")
 
 def summary(bars: pd.DataFrame, trade_log: pd.DataFrame, capital: float, risk_free_return: float):
     returns = bar_returns(bars["Net Equity"], capital)
     drawdown = max_drawdown(bars, capital)
     sharpe_ratio = sharpe(returns, risk_free_return)
-    print(f"Max Drawdown: {drawdown}")
-    print(f"Sharpe Ratio: {sharpe_ratio}")
     trade_stats(trade_log)
+    with open(result_title, "a", encoding="utf-8") as f:
+            f.write(f"Max Drawdown: {drawdown}\n")
+            f.write(f"Sharpe Ratio: {sharpe_ratio}\n")
     plot_equity_curve(bars, "Equity Curve")
     
 
